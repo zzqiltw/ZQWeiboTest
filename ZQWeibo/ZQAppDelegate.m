@@ -7,15 +7,22 @@
 //
 
 #import "ZQAppDelegate.h"
+#import "ZQTabBarController.h"
+#import "ZQNewFetureViewController.h"
+#import "ZQOAuthController.h"
+#import <SDWebImageManager.h>
 
 @implementation ZQAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    application.statusBarHidden = NO;
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    [ZQRootVCTool selectRootVC];
+    
     return YES;
 }
 
@@ -44,6 +51,14 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
+    // 停止sd的所有图片下载任务
+    [[SDWebImageManager sharedManager] cancelAll];
+    // 清除sd的所有图片内存缓存
+    [[SDWebImageManager sharedManager].imageCache clearMemory];
 }
 
 @end
